@@ -1,8 +1,7 @@
 # Diagrama de creación de una nueva nota
 
 ```mermaid
-graph TD
-    sequenceDiagram
+sequenceDiagram
     participant Usuario
     participant Navegador
     participant Server

@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: El usuario escribe una nueva nota en el campo de texto
+
+    browser->>browser: El usuario hace clic en el botón "Guardar"
+    Note right of browser: La SPA maneja el evento sin recargar la página
+
+    browser->>server: POST /exampleapp/new_note_spa
+    Note right of server: Contenido enviado: content=<texto de la nota>
+    activate server
+    server-->>browser: Respuesta vacía (201 Created)
+    deactivate server
+
+    Note right of browser: El JS actualiza el estado local de notas
+
+    browser->>browser: La nueva nota se muestra en la página inmediatamente

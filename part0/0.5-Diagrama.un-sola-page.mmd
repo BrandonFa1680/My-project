@@ -1,0 +1,30 @@
+---
+id: 9021ad7a-f2f0-49a2-af22-e59e40932dba
+---
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET /exampleapp/spa
+    activate server
+    server-->>browser: Documento HTML
+    deactivate server
+
+    browser->>server: GET /exampleapp/main.css
+    activate server
+    server-->>browser: Archivo CSS
+    deactivate server
+
+    browser->>server: GET /exampleapp/spa.js
+    activate server
+    server-->>browser: Archivo JS (SPA)
+    deactivate server
+
+    Note right of browser: El browser ejecuta el código JS de la SPA
+
+    browser->>server: GET /exampleapp/data.json
+    activate server
+    server-->>browser: Lista de notas en formato JSON
+    deactivate server
+
+    Note right of browser: El browser renderiza dinámicamente las notas en la página sin recargar

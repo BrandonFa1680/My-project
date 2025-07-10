@@ -1,0 +1,40 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User writes a new note in the text field
+
+    browser->>browser: User clicks "Save" button
+    Note right of browser: JavaScript captures the form submit event
+
+    browser->>server: POST /exampleapp/new_note
+    Note right of server: Payload: content=<note text>
+    activate server
+    server-->>browser: Redirect to /notes
+    deactivate server
+
+    Note right of browser: Browser follows redirect and reloads the page
+
+    browser->>server: GET /exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET /exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET /exampleapp/main.js
+    activate server
+    server-->>browser: JavaScript file
+    deactivate server
+
+    Note right of browser: JavaScript fetches the updated note list
+
+    browser->>server: GET /exampleapp/data.json
+    activate server
+    server-->>browser: Updated list of notes (including the new one)
+    deactivate server
+
+    Note right of browser: The browser renders the updated notes on the page

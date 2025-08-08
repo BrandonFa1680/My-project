@@ -1,6 +1,42 @@
-import Header from "./Header"
-import Content from "./Content"
-import Total from "./Total"
+const Header = ({name}) => {
+  console.log(name)
+  return (
+    <h1>{name}</h1>
+  )
+}
+
+const Total = ({parts}) => {
+    const total = parts.reduce((acc,curr)=> acc+curr.exercises,0)
+    return (
+        <div>
+            <p><b> total of {total} exercises</b></p>
+        </div>
+    )
+}
+
+const Part = ({name,exercises}) => {
+  return (
+    <p>{name} {exercises}</p>
+  )
+}
+
+const Content = ({parts}) => {
+  //console.log(parts)
+  return (
+    <div>
+      {parts.map((p)=>{
+        return(
+        <div key={p.id}>
+          {console.log(p)}
+          <Part name={p.name} exercises={p.exercises}/>
+        </div>
+      )})}
+    </div>
+  )
+}
+
+
+
 
 const Course = ({course}) => {
     return (

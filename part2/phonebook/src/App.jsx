@@ -20,29 +20,43 @@ const App = () => {
 
   const filteredPerson = persons.filter(person => person.name.toLocaleLowerCase().includes(filterName))
 
+  const updatePerson = (id,person) => {
+    if(window.confirm(`${person.name} is already added to phonebook, replace the old number with a new one?`))
+    {
+      const currentPerson = persons.find(p => p.id ===id)
+      const changePerson = {...currentPerson, number: person.number}
+
+      personservice
+        .update(id,changePerson)
+        .then(returnedPerson =>
+          setPersons(persons.map( p => p.id !== id ? p : returnedPerson))
+        )
+    }
+    setNewName('')
+    setNewNumber('')
+  }
+  
   const addPerson = (e) => {
     e.preventDefault()
 
-    const nameExists = persons.some(person => person.name === newName)
-
-    if(nameExists){
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
+    const nameExists = persons.find(person => person.name.toLocaleLowerCase() === newName.toLocaleLowerCase())
 
     const personObject = {
       name: newName,
       number: newNumber
     }
 
-    personservice
+    if(nameExists){
+      updatePerson(nameExists.id,personObject)
+    } else {
+      personservice
       .create(personObject)
-      .then(person => {
-        setPersons(persons.concat(person))
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
       })
-
-    setNewName('')
-    setNewNumber('')
+    }
   }
 
   const deletePerson = (id,person) =>{

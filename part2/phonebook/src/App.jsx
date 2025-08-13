@@ -27,6 +27,7 @@ const App = () => {
 
     if(nameExists){
       alert(`${newName} is already added to phonebook`)
+      return
     }
 
     const personObject = {
@@ -42,6 +43,17 @@ const App = () => {
 
     setNewName('')
     setNewNumber('')
+  }
+
+  const deletePerson = (id,person) =>{
+    if(window.confirm(`Delete ${person.name}`))
+    {
+      personservice
+        .remove(id)
+        .then( ()=> {
+          setPersons(persons.filter(p=> p.id !== id))
+        })
+    }
   }
 
   const handleNewName = (e) => {
@@ -64,7 +76,7 @@ const App = () => {
       <Form onSubmit={addPerson} newName={newName} handleNewName={handleNewName} 
             newNumber={newNumber} handleNewNumber={handleNewNumber}/>
       <h3>Numbers</h3>
-      <Person persons={filteredPerson}/>
+      <Person persons={filteredPerson} onClick={deletePerson}/>
     </div>
   )
 }

@@ -32,10 +32,17 @@ const App = () => {
         .update(id,changePerson)
         .then(returnedPerson =>{
           setPersons(persons.map( p => p.id !== id ? p : returnedPerson))
-          setNewMessage(`Updated number for ${returnedPerson.name}`)
+          setNewMessage({message:`Updated number for ${returnedPerson.name}`, type:'success'})
           setTimeout(() => setNewMessage(null), 5000)
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {
+          setNewMessage({message:`Information of ${currentPerson.name} has already been removed from server`, 
+            type:'error'})
+          setTimeout(() => {
+          setNewMessage(null)
+        }, 5000)
         })
     }
   }
@@ -59,7 +66,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        setNewMessage(`Added ${returnedPerson.name}`)
+        setNewMessage({message:`Added ${returnedPerson.name}`, type:'success'})
         setTimeout(() => {
           setNewMessage(null)
         }, 5000);
@@ -95,7 +102,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={newMessage}/>
+      <Notification message={newMessage ? newMessage.message : null} 
+                    type={newMessage ? newMessage.type : null}/>
       <Filter value={filterName} onChange={handleFilterName}/>
       <h3>Add a new</h3>
       <Form onSubmit={addPerson} newName={newName} handleNewName={handleNewName} 
